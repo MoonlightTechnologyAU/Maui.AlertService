@@ -2,26 +2,30 @@
 <toolkit:Popup
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:lottie="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui.Lottie"
     x:Class="Maui.AlertService.Controls.CustomAlertPopup"
     x:Name="RootPopup"
     Size="300, Auto"
-    BackgroundColor="{Binding BackgroundColor, Source={x:Reference RootPopup}}">
+    BackgroundColor="Black">
 
     <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="Center">
-        <lottie:LottieAnimationView
-            x:Name="IconAnimation"
-            HeightRequest="100"
-            WidthRequest="100"
-            IsVisible="False"
-            Loop="False"
-            AutoPlay="True" />
+
+        <!-- FontAwesome Icon Label -->
+        <Label x:Name="IconLabel"
+               FontFamily="FontAwesomeSolid"
+               FontSize="60"
+               TextColor="#FFD700"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="False" />
 
         <Label x:Name="TitleLabel"
-               FontSize="20" FontAttributes="Bold"
+               FontSize="20"
+               FontAttributes="Bold"
+               TextColor="White"
                HorizontalOptions="Center" />
 
         <Label x:Name="MessageLabel"
+               TextColor="White"
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />
 

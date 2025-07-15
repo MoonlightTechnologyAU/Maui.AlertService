@@ -13,7 +13,6 @@ namespace Maui.AlertService.Controls
             string? middleOption = null,
             string? rightOption = null,
             AlertIconType iconType = AlertIconType.None,
-            SuccessStyle successStyle = SuccessStyle.Checkmark,
             TimeSpan? autoDismissDelay = null,
             Color? backgroundColor = null,
             string? titleFontFamily = null, Color? titleColor = null, double? titleFontSize = null,
@@ -22,24 +21,23 @@ namespace Maui.AlertService.Controls
         {
             InitializeComponent();
 
-            if (backgroundColor != null)
-                BackgroundColor = backgroundColor;
+            BackgroundColor = backgroundColor ?? Colors.Black;
 
             TitleLabel.Text = title;
             if (titleFontFamily != null) TitleLabel.FontFamily = titleFontFamily;
-            if (titleColor != null) TitleLabel.TextColor = titleColor;
+            TitleLabel.TextColor = titleColor ?? Colors.White;
             if (titleFontSize.HasValue) TitleLabel.FontSize = titleFontSize.Value;
 
             MessageLabel.Text = message;
             if (messageFontFamily != null) MessageLabel.FontFamily = messageFontFamily;
-            if (messageColor != null) MessageLabel.TextColor = messageColor;
+            MessageLabel.TextColor = messageColor ?? Colors.White;
             if (messageFontSize.HasValue) MessageLabel.FontSize = messageFontSize.Value;
 
             ConfigureButton(LeftButton, leftOption, CustomAlertResult.Cancel, buttonFontFamily, buttonColor, buttonFontSize);
             ConfigureButton(MiddleButton, middleOption, CustomAlertResult.Option0, buttonFontFamily, buttonColor, buttonFontSize);
             ConfigureButton(RightButton, rightOption, CustomAlertResult.Option1, buttonFontFamily, buttonColor, buttonFontSize);
 
-            ConfigureIcon(iconType, successStyle);
+            ConfigureIcon(iconType);
 
             if (autoDismissDelay.HasValue)
                 _ = AutoDismissAsync(autoDismissDelay.Value);
@@ -53,7 +51,7 @@ namespace Maui.AlertService.Controls
                 button.IsVisible = true;
                 button.Command = new Command(() => Close(returnValue));
                 if (font != null) button.FontFamily = font;
-                if (color != null) button.TextColor = color;
+                button.TextColor = color ?? Colors.Gold;
                 if (size.HasValue) button.FontSize = size.Value;
             }
             else
@@ -62,27 +60,26 @@ namespace Maui.AlertService.Controls
             }
         }
 
-        private void ConfigureIcon(AlertIconType iconType, SuccessStyle successStyle)
+        private void ConfigureIcon(AlertIconType iconType)
         {
-            string? file = iconType switch
+            string? iconText = iconType switch
             {
-                AlertIconType.Info => "info.json",
-                AlertIconType.Success => successStyle switch
-                {
-                    SuccessStyle.Checkmark => "success_checkmark.json",
-                    SuccessStyle.Confetti => "success_confetti.json",
-                    _ => "success_checkmark.json"
-                },
-                AlertIconType.Warning => "warning.json",
-                AlertIconType.Error => "error.json",
-                AlertIconType.Question => "question.json",
+                AlertIconType.Info => "\uf05a",           // info-circle
+                AlertIconType.Success => "\uf058",        // check-circle
+                AlertIconType.Warning => "\uf071",        // exclamation-triangle
+                AlertIconType.Error => "\uf057",          // times-circle
+                AlertIconType.Question => "\uf059",       // question-circle
                 _ => null
             };
 
-            if (file != null)
+            if (iconText != null)
             {
-                IconAnimation.IsVisible = true;
-                IconAnimation.Animation = LottieResource.FromJson(file);
+                IconLabel.Text = iconText;
+                IconLabel.IsVisible = true;
+            }
+            else
+            {
+                IconLabel.IsVisible = false;
             }
         }
 

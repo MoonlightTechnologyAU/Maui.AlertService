@@ -14,14 +14,15 @@ namespace Maui.AlertService.Services
             string? middleOption = null,
             string? rightOption = "OK",
             AlertIconType icon = AlertIconType.None,
-            SuccessStyle successStyle = SuccessStyle.Checkmark,
             TimeSpan? autoDismissDelay = null)
         {
             var popup = new CustomAlertPopup(
-                title, message,
-                leftOption, middleOption, rightOption,
+                title,
+                message,
+                leftOption,
+                middleOption,
+                rightOption,
                 icon,
-                successStyle,
                 autoDismissDelay);
 
             var result = await page.ShowPopupAsync(popup);
